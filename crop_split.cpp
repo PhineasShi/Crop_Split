@@ -13,7 +13,7 @@ Crop_Split::Crop_Split(QWidget *parent)
 	plateName = "123";
 
 	pointCount = 0;
-	ui.graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);			//设置拖拉
+	ui.graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);			//set the graphicView to drag mode
 	this->setMouseTracking(true);
 	QButtonGroup *pointerModeGroup = new QButtonGroup(this);
 	pointerModeGroup->setExclusive(true);
@@ -48,9 +48,9 @@ void Crop_Split::initRatios()
 
 void Crop_Split::showCvImage(cv::Mat input, QGraphicsView *gv, int width, int height)
 {
-	scene = new QGraphicsScene;			//实例化一个scene
+	scene = new QGraphicsScene;			//Instantiate a new scene
 	QImage *image;
-	if (input.type() == CV_8UC3)							//将Mat图转化为RGBA便于后期转QImage格式
+	if (input.type() == CV_8UC3)							//Convert input Mat image into RGBA format, for furture convertion into QImage
 	{
 		cv::cvtColor(input, input, CV_RGB2RGBA);			//当Mat为RGB时
 	}
