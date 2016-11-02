@@ -194,7 +194,10 @@ void Crop_Split::saveRects(QList<cv::Mat> rectList)
 		QFileInfoList list = dir.entryInfoList();
 		if (!list.isEmpty())
 		{
-			num = list.last().fileName().split(".").at(0).toInt() + 1;
+			for (int j = 0; j < list.length(); j++)
+			{
+				num = num > list[j].completeBaseName().toInt() ? num : list[j].completeBaseName().toInt();
+			}
 		}
 		else
 		{
