@@ -174,12 +174,23 @@ QList<cv::Mat> Crop_Split::split(cv::Rect roi)
 }
 bool Crop_Split::setRectName()
 {
-	bool ok;
-	QString name = QInputDialog::getText(this, "输入车牌号", "车牌号", QLineEdit::Normal, imageFileName, &ok);
-	if (ok && !name.isEmpty())
+	bool ok = true;
+	while (ok)
 	{
-		plateName = name ;		
-	}
+		QString name = QInputDialog::getText(this, "输入车牌号", "车牌号", QLineEdit::Normal, imageFileName, &ok);
+		if (ok && !name.isEmpty())
+		{
+			if (name.size() == 7)
+			{
+				plateName = name;
+				break;
+			}
+			else
+			{
+				QMessageBox::warning(this, "输入错误", "车牌号输入有误");
+			}
+		}
+	}	
 	return ok;
 }
 void Crop_Split::saveRects(QList<cv::Mat> rectList)
