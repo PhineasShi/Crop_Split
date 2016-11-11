@@ -37,10 +37,10 @@ Crop_Split::~Crop_Split()
 void Crop_Split::initRatios()
 {
 	ratios[0] = 0;
-	ratios[1] = (double)62 / (440 - 9);
-	ratios[2] = (double)(62 + 57) / (440 - 9);
+	ratios[1] = (double)62 / (440 - 9);			// 62=(15.5-1.5-3)+45+12/2; 9=(1.5+3)*2;
+	ratios[2] = (double)(62 + 57) / (440 - 9);  // 57=45+12/2*2
 	ratios[3] = (double)(62 + 57 + 12 + 10) / (440 - 9);
-	for (int i = 4; i < 8; i++)
+	for (int i = 4; i < 9; i++)
 	{
 		ratios[i] = (double)(62 + 57 + 12 + 10 + 57 * (i - 3)) / (440 - 9);
 	}
@@ -162,7 +162,7 @@ QList<cv::Mat> Crop_Split::split(cv::Rect roi)
 {
 	QList<cv::Mat> rectList;
 	cv::Mat imageRoi = cv_input(roi);
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		if (i == 2)
 			continue;

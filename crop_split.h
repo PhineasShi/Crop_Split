@@ -41,7 +41,7 @@ private:
 	cv::Point br;
 	cv::Rect rect;
 	int pointCount;
-	double ratios[7];
+	double ratios[9];
 	
 	QString *placeHolder;		//The first QString is cursed with _q_value equals 0*ffffffff
 	QString imageFileName;
