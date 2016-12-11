@@ -207,7 +207,7 @@ void Crop_Split::saveRects(QList<cv::Mat> rectList)
 		{
 			for (int j = 0; j < list.length(); j++)
 			{
-				num = num > list[j].completeBaseName().toInt() ? num : list[j].completeBaseName().toInt();
+				num = num > list[j].completeBaseName().toInt()+1 ? num : list[j].completeBaseName().toInt()+1;
 			}
 		}
 		else
