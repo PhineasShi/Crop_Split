@@ -47,6 +47,7 @@ private:
 	QString imageFileName;
 	QString outputPath;
 	QString plateName;
+	QString lastDir;
 
 	void showCvImage(cv::Mat input, QGraphicsView *gv, int width, int height);
 	void showROI(cv::Rect roi);
@@ -54,6 +55,9 @@ private:
 	bool setRectName();
 	void initRatios();
 	void saveRects(QList<cv::Mat> rectList);
+
+	void LoadCfgFile();
+	void saveCfgFile();
 private slots:
 	void zoomChange();
 	void togglePointerMode();

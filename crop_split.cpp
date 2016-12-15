@@ -12,6 +12,8 @@ Crop_Split::Crop_Split(QWidget *parent)
 	outputPath = "D:/result";
 	plateName = "123";
 
+	LoadCfgFile();
+
 	pointCount = 0;
 	ui.graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);			//set the graphicView to drag mode
 	this->setMouseTracking(true);
@@ -32,6 +34,7 @@ Crop_Split::Crop_Split(QWidget *parent)
 
 Crop_Split::~Crop_Split()
 {
+	saveCfgFile();
 }
 
 void Crop_Split::initRatios()
@@ -69,11 +72,14 @@ void Crop_Split::showCvImage(cv::Mat input, QGraphicsView *gv, int width, int he
 //弹出对话框选择图像源文件和源文件
 void Crop_Split::openFile()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, "", "I:/Tutor/Blurred License/Picture");
+	QString fileName = QFileDialog::getOpenFileName(this, "", lastDir);
 	if (fileName.isEmpty())
 	{
 		return;
 	}
+	QDir parentDir(fileName);
+	parentDir.cdUp();
+	lastDir = parentDir.path();
 	imageFileName = QFileInfo(fileName).fileName().split(".").at(0);
 	qDebug() << fileName;
 	cv_input = cv::imread(fileName.toLocal8Bit().toStdString());		//读入原图，便于展示
@@ -218,6 +224,45 @@ void Crop_Split::saveRects(QList<cv::Mat> rectList)
 		qDebug() << path;
 		bool writed = cv::imwrite(path.toLocal8Bit().toStdString(), rectList[i]);
 	}
+}
+
+void Crop_Split::LoadCfgFile()
+{
+	QFile file("cfg.ini");
+	if (!file.open(QIODevice::ReadOnly|QIODevice::Text))
+	{
+		return;
+	}
+	QTextStream in(&file);
+	while (!in.atEnd())
+	{
+		QString line = in.readLine();
+		QStringList strList = line.split('=');
+		QString propName = strList.at(0);
+		QString prop = strList.at(1);
+		if (propName == "outputPath")
+		{
+			outputPath = prop;
+		}
+		else if (propName == "lastDir")
+		{
+			lastDir = prop;
+		}
+	}
+	file.close();
+}
+
+void Crop_Split::saveCfgFile()
+{
+	QFile file("cfg.ini");
+	if (!file.open(QIODevice::WriteOnly|QIODevice::Text))
+	{
+		return;
+	}
+	QTextStream out(&file);
+	out << "outputPath=" << outputPath << endl;
+	out << "lastDir=" << lastDir;
+	file.close();
 }
 
 void Crop_Split::changePath()
